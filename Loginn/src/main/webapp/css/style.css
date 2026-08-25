@@ -1,0 +1,139 @@
+/* --- Cấu hình chung --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #2d3748;
+}
+
+/* --- Khung Card chung cho các trang --- */
+.form-container, .login-box, .welcome-box {
+    background: #ffffff;
+    padding: 40px 35px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 420px;
+}
+
+h2, .welcome-box h1 {
+    text-align: center;
+    color: #4a5568;
+    margin-bottom: 25px;
+    font-size: 26px;
+    font-weight: 700;
+}
+
+/* --- Các ô nhập liệu --- */
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group input, .form-control {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 15px;
+    background-color: #f8fafc;
+    transition: all 0.3s;
+}
+
+.input-group input:focus, .form-control:focus {
+    border-color: #667eea;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+    outline: none;
+}
+
+/* --- Nút bấm đồng bộ kiểu hình chữ nhật xám hiện đại --- */
+.logout-btn {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    padding: 14px;
+    background: linear-gradient(135deg, #a0aec0 0%, #718096 100%);
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(113, 128, 150, 0.3);
+    cursor: pointer;
+    transition: opacity 0.3s;
+    text-align: center;
+}
+
+.logout-btn:hover {
+    opacity: 0.85;
+}
+
+/* --- Thông báo lỗi --- */
+.alert-danger {
+    color: #9b2c2c;
+    background-color: #fff5f5;
+    border: 1px solid #fed7d7;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* --- Phần Nhớ tôi và Quên mật khẩu --- */
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #4a5568;
+}
+
+.forgot-password {
+    color: #764ba2;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+/* --- Các đường dẫn chuyển trang --- */
+.links {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #4a5568;
+}
+
+.links a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.links a:hover {
+    text-decoration: underline;
+}
+
+/* --- Nội dung trang index.jsp --- */
+.welcome-box p {
+    color: #4a5568;
+    font-size: 15px;
+    margin-bottom: 12px;
+    line-height: 1.6;
+    text-align: center;
+}
