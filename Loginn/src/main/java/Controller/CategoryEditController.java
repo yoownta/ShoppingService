@@ -16,12 +16,11 @@ import Model.Category;
 import Service.CategoryService;
 import Service.CategoryServiceImpl;
 
-@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
-                 maxFileSize = 1024 * 1024 * 10,      // 10MB
-                 maxRequestSize = 1024 * 1024 * 50)   // 50MB
-@WebServlet(urlPatterns = "/admin/category/add")
-public class CategoryAddController extends HttpServlet {
-    
+@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2,
+                 maxFileSize = 1024 * 1024 * 10,
+                 maxRequestSize = 1024 * 1024 * 50)
+@WebServlet(urlPatterns = "/admin/category/edit")
+public class CategoryEditController extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private CategoryService cateService = new CategoryServiceImpl();
 
@@ -29,9 +28,14 @@ public class CategoryAddController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
-
-        // Nhúng form thêm mới vào khung tổng admin.jsp
-        req.setAttribute("subPage", "/views/admin/add-category.jsp");
+        
+        int id = Integer.parseInt(req.getParameter("id"));
+        Category category = cateService.get(id); // Lấy danh mục cũ theo ID[cite: 3, 4]
+        
+        req.setAttribute("category", category);
+        
+        // Sửa lại đường dẫn đúng với cây thư mục hiện tại của bạn (nằm trực tiếp trong views/admin/)
+        req.setAttribute("subPage", "/views/admin/edit-category.jsp");
         req.getRequestDispatcher("/views/admin/layout/admin.jsp").forward(req, resp);
     }
 
@@ -40,9 +44,14 @@ public class CategoryAddController extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         
-        String categoryName = req.getParameter("categoryname");
+        int id = Integer.parseInt(req.getParameter("id"));
+        String name = req.getParameter("name");
         
-        String fname = "";
+        Category category = new Category();
+        category.setId(id);
+        category.setName(name);
+        
+        // Xử lý upload ảnh mới nếu người dùng chọn file ảnh khác
         String uploadPath = Constant.DIR;
         File uploadDir = new File(uploadPath);
         if (!uploadDir.exists()) {
@@ -53,20 +62,21 @@ public class CategoryAddController extends HttpServlet {
             Part filePart = req.getPart("icon");
             if (filePart != null && filePart.getSize() > 0) {
                 String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-                long currentTime = System.currentTimeMillis();
-                fname = currentTime + "_" + fileName;
+                String fname = System.currentTimeMillis() + "_" + fileName;
                 filePart.write(uploadPath + File.separator + fname);
+                category.setIcon(fname); // Set ảnh mới
+            } else {
+                // Nếu không chọn ảnh mới, giữ lại ảnh cũ trong DB
+                Category oldCategory = cateService.get(id);
+                category.setIcon(oldCategory.getIcon());
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         
-        Category category = new Category();
-        category.setName(categoryName);
-        category.setIcon(fname); 
+        cateService.edit(category);
         
-        cateService.insert(category);
-        
+        // Sửa lại chỗ này: Sau khi sửa xong phải chuyển hướng về lại trang danh sách
         resp.sendRedirect(req.getContextPath() + "/admin/category/list");
     }
 }

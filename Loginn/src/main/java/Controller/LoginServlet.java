@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Cookie;
 
 import Model.User;
 import Service.UserService;
@@ -35,11 +36,22 @@ public class LoginServlet extends HttpServlet {
         switch (path) {
             case "/":
             case "/home":
-                request.getRequestDispatcher("/views/index.jsp").forward(request, response);
+            	request.getRequestDispatcher("/views/index.jsp").forward(request, response);
                 break;
 
             case "/login":
-                // Đã loại bỏ cookie, luôn mở trang đăng nhập sạch sẽ
+                // 1. Quét toàn bộ Cookie có trên trình duyệt
+                Cookie[] cookies = request.getCookies();
+                if (cookies != null) {
+                    for (Cookie cookie : cookies) {
+                        if (cookie.getName().equals("username")) {
+                            // 2. Tìm thấy thì gán giá trị vào attribute để truyền ra JSP
+                            request.setAttribute("username", cookie.getValue());
+                            break;
+                        }
+                    }
+                }
+                // 3. Chuyển hướng hiển thị ra trang login.jsp
                 request.getRequestDispatcher("/views/login.jsp").forward(request, response);
                 break;
 
@@ -111,7 +123,19 @@ public class LoginServlet extends HttpServlet {
                 HttpSession session = request.getSession(true);
                 session.setAttribute("account", user);
 
-                // Sửa đoạn sendRedirect thành như sau để tránh lỗi 400:
+                // Xử lý COOKIE (Remember Me)
+                String remember = request.getParameter("remember");
+                String cleanUsername = username != null ? username.trim() : ""; 
+
+                Cookie ckUser = new Cookie("username", cleanUsername);
+                if (remember != null) {
+                    ckUser.setMaxAge(7 * 24 * 60 * 60); // Lưu cookie trong 7 ngày
+                } else {
+                    ckUser.setMaxAge(0); // Xóa cookie nếu không chọn nhớ
+                }
+                response.addCookie(ckUser);
+
+                // BỔ SUNG LỆNH CHUYỂN HƯỚNG NÀY ĐỂ KHẮC PHỤC TRANG TRẮNG:
                 String contextPath = request.getContextPath();
                 response.sendRedirect(contextPath + "/waiting");
                 return;

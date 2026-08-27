@@ -17,7 +17,8 @@
             </c:if>
 
             <div class="input-group">
-                <input type="text" placeholder="Tài khoản" name="username" class="form-control" required>
+                <!-- THÊM value="${username}" VÀO ĐÂY ĐỂ HIỂN THỊ COOKIE ĐÃ LƯU -->
+                <input type="text" placeholder="Tài khoản" name="username" value="${username}" class="form-control" required>
             </div>
             
             <div class="input-group">

@@ -20,7 +20,7 @@ public class DBConnection {
     private final String serverName = "localhost";
     private final String dbName = "Clothing";
     private final String portNumber = "1433";
-    private final String instance="";//MSSQLSERVER LEAVE THIS ONE EMPTY IF YOUR SQL IS A SINGLE INSTANCE
+    private final String instance="";
     private final String userID = "sa";
     private final String password = "1234@a$";
 }
