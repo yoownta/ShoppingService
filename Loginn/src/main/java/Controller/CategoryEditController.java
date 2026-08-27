@@ -30,11 +30,10 @@ public class CategoryEditController extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         
         int id = Integer.parseInt(req.getParameter("id"));
-        Category category = cateService.get(id); // Lấy danh mục cũ theo ID[cite: 3, 4]
+        Category category = cateService.get(id);
         
         req.setAttribute("category", category);
         
-        // Sửa lại đường dẫn đúng với cây thư mục hiện tại của bạn (nằm trực tiếp trong views/admin/)
         req.setAttribute("subPage", "/views/admin/edit-category.jsp");
         req.getRequestDispatcher("/views/admin/layout/admin.jsp").forward(req, resp);
     }
@@ -51,7 +50,6 @@ public class CategoryEditController extends HttpServlet {
         category.setId(id);
         category.setName(name);
         
-        // Xử lý upload ảnh mới nếu người dùng chọn file ảnh khác
         String uploadPath = Constant.DIR;
         File uploadDir = new File(uploadPath);
         if (!uploadDir.exists()) {
@@ -64,9 +62,8 @@ public class CategoryEditController extends HttpServlet {
                 String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
                 String fname = System.currentTimeMillis() + "_" + fileName;
                 filePart.write(uploadPath + File.separator + fname);
-                category.setIcon(fname); // Set ảnh mới
+                category.setIcon(fname);
             } else {
-                // Nếu không chọn ảnh mới, giữ lại ảnh cũ trong DB
                 Category oldCategory = cateService.get(id);
                 category.setIcon(oldCategory.getIcon());
             }
@@ -76,7 +73,6 @@ public class CategoryEditController extends HttpServlet {
         
         cateService.edit(category);
         
-        // Sửa lại chỗ này: Sau khi sửa xong phải chuyển hướng về lại trang danh sách
         resp.sendRedirect(req.getContextPath() + "/admin/category/list");
     }
 }

@@ -30,7 +30,6 @@ public class CategoryAddController extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
 
-        // Nhúng form thêm mới vào khung tổng admin.jsp
         req.setAttribute("subPage", "/views/admin/add-category.jsp");
         req.getRequestDispatcher("/views/admin/layout/admin.jsp").forward(req, resp);
     }

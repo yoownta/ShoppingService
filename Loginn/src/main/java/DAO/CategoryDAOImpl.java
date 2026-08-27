@@ -63,7 +63,7 @@ public class CategoryDAOImpl extends DBConnection implements CategoryDAO {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Category category = new Category();
-                category.setId(rs.getInt("cate_id")); // Đã sửa lỗi thiếu dấu " trong slide
+                category.setId(rs.getInt("cate_id"));
                 category.setName(rs.getString("cate_name"));
                 category.setIcon(rs.getString("icons"));
                 return category;

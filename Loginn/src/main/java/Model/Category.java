@@ -1,22 +1,19 @@
 package Model;
 
 public class Category {
-    private int id;        // Tương ứng với cateid trong slide
-    private String name;   // Tương ứng với catename trong slide
-    private String icon;   // Tương ứng với icon trong slide
+    private int id;       
+    private String name;   
+    private String icon;
 
-    // Constructor mặc định (Không tham số)
     public Category() {
     }
 
-    // Constructor đầy đủ tham số
     public Category(int id, String name, String icon) {
         this.id = id;
         this.name = name;
         this.icon = icon;
     }
 
-    // Các hàm Getters và Setters
     public int getId() {
         return id;
     }

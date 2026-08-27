@@ -24,15 +24,11 @@ public class CategoryListController extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         req.setCharacterEncoding("UTF-8");
 
-        // 1. Lấy danh sách danh mục từ Database lên thông qua Service[cite: 3, 4]
         List<Category> list = cateService.getAll();
         req.setAttribute("cateList", list);
 
-        // 2. CHÌA KHÓA QUAN TRỌNG: 
-        // Đẩy đường dẫn của file list-category.jsp vào biến "subPage" để file admin.jsp nhúng vào vùng giữa[cite: 11]
         req.setAttribute("subPage", "/views/admin/list-category.jsp");
 
-        // 3. Gọi forward ra file khung tổng admin.jsp bằng RequestDispatcher
         req.getRequestDispatcher("/views/admin/layout/admin.jsp").forward(req, resp);
     }
 }

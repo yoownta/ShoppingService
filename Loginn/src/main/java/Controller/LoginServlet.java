@@ -40,18 +40,15 @@ public class LoginServlet extends HttpServlet {
                 break;
 
             case "/login":
-                // 1. Quét toàn bộ Cookie có trên trình duyệt
                 Cookie[] cookies = request.getCookies();
                 if (cookies != null) {
                     for (Cookie cookie : cookies) {
                         if (cookie.getName().equals("username")) {
-                            // 2. Tìm thấy thì gán giá trị vào attribute để truyền ra JSP
                             request.setAttribute("username", cookie.getValue());
                             break;
                         }
                     }
                 }
-                // 3. Chuyển hướng hiển thị ra trang login.jsp
                 request.getRequestDispatcher("/views/login.jsp").forward(request, response);
                 break;
 
@@ -78,7 +75,7 @@ public class LoginServlet extends HttpServlet {
             case "/logout":
                 HttpSession sessionLogOut = request.getSession(false);
                 if (sessionLogOut != null) {
-                    sessionLogOut.invalidate(); // Hủy session khi đăng xuất
+                    sessionLogOut.invalidate(); 
                 }
                 response.sendRedirect(request.getContextPath() + "/login");
                 break;
@@ -104,7 +101,6 @@ public class LoginServlet extends HttpServlet {
         String path = request.getServletPath();
         UserService userService = new UserServiceImpl();
 
-        // Xử lý logic ĐĂNG NHẬP
         if ("/login".equals(path)) {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
@@ -123,19 +119,17 @@ public class LoginServlet extends HttpServlet {
                 HttpSession session = request.getSession(true);
                 session.setAttribute("account", user);
 
-                // Xử lý COOKIE (Remember Me)
                 String remember = request.getParameter("remember");
                 String cleanUsername = username != null ? username.trim() : ""; 
 
                 Cookie ckUser = new Cookie("username", cleanUsername);
                 if (remember != null) {
-                    ckUser.setMaxAge(7 * 24 * 60 * 60); // Lưu cookie trong 7 ngày
+                    ckUser.setMaxAge(7 * 24 * 60 * 60); 
                 } else {
-                    ckUser.setMaxAge(0); // Xóa cookie nếu không chọn nhớ
+                    ckUser.setMaxAge(0); 
                 }
                 response.addCookie(ckUser);
 
-                // BỔ SUNG LỆNH CHUYỂN HƯỚNG NÀY ĐỂ KHẮC PHỤC TRANG TRẮNG:
                 String contextPath = request.getContextPath();
                 response.sendRedirect(contextPath + "/waiting");
                 return;
@@ -144,7 +138,6 @@ public class LoginServlet extends HttpServlet {
                 request.getRequestDispatcher("/views/login.jsp").forward(request, response);
             }
         } 
-        // Xử lý logic ĐĂNG KÝ
         else if ("/register".equals(path)) {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
