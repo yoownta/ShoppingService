@@ -1,0 +1,4 @@
+- Thông tin login (Lấy từ database):
+username: admin
+password: 123456
+- Sau khi đăng nhập sẽ đưa vào trang Category
